@@ -8,7 +8,7 @@ class Button{
   protected boolean isPressed, isOver;
   
   public Button(){
-    this.width = 200;
+    this.width = 300;
     this.height = 50;
     this.x = 1600 - width / 2;
     this.y = 100;
