@@ -1,12 +1,48 @@
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.*;
+
+enum Menu{
+  LOGINMENU,
+  MAINMENU,
+  OPTIONSMENU,
+  LEVELSELECTMENU
+}
 
 LoginMenu loginMenu;
+MainMenu mainMenu;
+OptionsMenu optionsMenu;
+
+//to avoid buttons being pressed at the same time
+long startTime;
+long timeBeforeMenuCanBeSeen;
+
+Menu menus;
 
 public void setup(){
   size(1600,1000);
+  
+  //startTime is for knowing the start time of the programm
+  startTime = System.currentTimeMillis();
+  //time before a menu loads
+  timeBeforeMenuCanBeSeen = 100;
+  
   loginMenu = new LoginMenu();
+  mainMenu = new MainMenu();
+  optionsMenu = new OptionsMenu();
+  
+  menus = Menu.LOGINMENU;
+}
+
+//puts the start time at the current time (used to know when a button was last pressed)
+public void resetStartTime(){
+  startTime = System.currentTimeMillis();
+}
+
+//checks if the last time a button has been pressed is greater or equal to the delay between menus
+public boolean checkIfMenuCanBeSeen(){
+  return System.currentTimeMillis() - startTime >= timeBeforeMenuCanBeSeen;
 }
 
 public void readUserInfo(){
@@ -26,21 +62,58 @@ public void readUserInfo(){
       e.printStackTrace();
     }
     if(loginMenu.getIsLoginCorrect()){
+      menus = Menu.MAINMENU;
+      resetStartTime();
       break;
     }
   }
 }
 
-public void showLoginMenu(){
+public void loginMenuManager(){
   if(loginMenu.getConfirmButton().getIsPressed()){
     readUserInfo();
   }
-  if(!loginMenu.getIsLoginCorrect()){
-    loginMenu.show();
+  loginMenu.show();
+}
+
+public void mainMenuManager(){
+  mainMenu.show();
+  if(mainMenu.isStartButtonPressed()){
+    menus = Menu.LEVELSELECTMENU;
+    resetStartTime();
+  }
+  if(mainMenu.isOptionsButtonPressed()){
+    menus = Menu.OPTIONSMENU;
+    resetStartTime();
+  }
+}
+
+public void optionsMenuManager(){
+  optionsMenu.show();
+  if(optionsMenu.isGoBackButtonPressed()){
+    menus = Menu.MAINMENU;
+    resetStartTime();
   }
 }
 
 public void draw(){
   background(190);
-  showLoginMenu();
+  if(checkIfMenuCanBeSeen()){
+    cursor(ARROW);
+    switch(menus){
+      case LOGINMENU:
+        loginMenuManager();
+        break;
+      case MAINMENU:
+        mainMenuManager();
+        break;
+      case OPTIONSMENU:
+        optionsMenuManager();
+        break;
+      case LEVELSELECTMENU:
+        break;
+    }
+  }else{
+    cursor(WAIT);
+  }
 }

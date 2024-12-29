@@ -107,4 +107,8 @@ final class Textbox extends Button{
       setIsKeyBeingPressed(true);
     }
   }
+  
+  public String toString(){
+    return text;
+  }
 }

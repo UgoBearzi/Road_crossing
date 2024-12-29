@@ -56,6 +56,9 @@ class Button{
   public void show(){
     buttonStatus();
     changeColor();
+    
+    changeMouseToHand();
+    
     fill(currentColor);
     rect(x, y, width, height);
     textFont(font, fontSize);
@@ -77,6 +80,14 @@ class Button{
       setIsOver(false);
     }
     
+  }
+  
+  public void changeMouseToHand(){
+    if(getIsOver()){
+      cursor(HAND);
+    }else{
+      cursor(ARROW);
+    }
   }
   
   public void changeColor(){

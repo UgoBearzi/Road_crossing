@@ -35,7 +35,7 @@ final class LoginMenu{
   }
   
   public void show(){
-    image(title,width/2-195, height/2-230,390,160);
+    image(title,width/2-195, height/2-330,390,160);
     usernameTextbox.show();
     passwordTextbox.show();
     confirmButton.show();
@@ -68,5 +68,9 @@ final class LoginMenu{
         setIsLoginCorrect(false);
       }
     }
+  }
+  
+  public String toString(){
+    return usernameTextbox.toString() + "\n" + passwordTextbox.toString();
   }
 }
