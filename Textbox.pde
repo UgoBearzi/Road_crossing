@@ -82,7 +82,7 @@ final class Textbox extends Button{
   }
   
   private void addCharacter(){
-    if(getIsKeyBeingPressed()){
+    if(getIsKeyBeingPressed() && text.length()<=15){
       this.text += key;
       setIsKeyBeingPressed(false);
     }

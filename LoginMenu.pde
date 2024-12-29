@@ -1,13 +1,13 @@
 final class LoginMenu{
-  Textbox usernameTextbox;
-  Textbox passwordTextbox;
-  Button confirmButton;
-  String warning;
-  boolean isLoginCorrect;
-  
-  
+  private PImage title;
+  private Textbox usernameTextbox;
+  private Textbox passwordTextbox;
+  private Button confirmButton;
+  private String warning;
+  private boolean isLoginCorrect;
   
   public LoginMenu(){
+    this.title = loadImage("Road Crossing.png");
     this.usernameTextbox = new Textbox(width/2, height/2-50, "Username");
     this.passwordTextbox = new Textbox(width/2, height/2, "Password");
     this.confirmButton = new Button(width/2, height/2+75, "Login", 16);
@@ -23,12 +23,23 @@ final class LoginMenu{
     this.isLoginCorrect = isLoginCorrect;
   }
   
+  public Button getConfirmButton(){
+    return confirmButton;
+  }
+  
+  public Textbox getUsernameTextbox(){
+    return usernameTextbox;
+  }
+  public Textbox getPasswordTextbox(){
+    return passwordTextbox;
+  }
+  
   public void show(){
+    image(title,width/2-195, height/2-230,390,160);
     usernameTextbox.show();
     passwordTextbox.show();
     confirmButton.show();
     
-    loginManager();
     textSize(16);
     textAlign(CENTER);
     fill(255, 0, 0);
@@ -36,22 +47,26 @@ final class LoginMenu{
     textAlign(LEFT);
   }
   
-  private boolean usernameCorrect(){
-    return usernameTextbox.getText().equals("bob");
+  private boolean usernameCorrect(String username){
+    return getUsernameTextbox().getText().equals(username);
   }
   
-  private boolean passwordCorrect(){
-    return passwordTextbox.getText().equals("password");
+  private boolean passwordCorrect(String password){
+    return getPasswordTextbox().getText().equals(password);
   }
   
-  public void loginManager(){
-    if(confirmButton.getIsPressed()){
-      if(usernameCorrect() && passwordCorrect()){
+  public void changeWarning(String input){
+    this.warning = input;
+  }
+  
+  public void loginManager(String username, String password){
+    if(getConfirmButton().getIsPressed()){
+      if(usernameCorrect(username) && passwordCorrect(password)){
         setIsLoginCorrect(true);
       }else{
-        warning = "get fucked";
+        changeWarning("wrong username or password");
+        setIsLoginCorrect(false);
       }
     }
   }
-  
 }
