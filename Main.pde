@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.*;
+import processing.sound.*;
 
 enum Menu{
   LOGINMENU,
@@ -13,6 +14,7 @@ enum Menu{
 LoginMenu loginMenu;
 MainMenu mainMenu;
 OptionsMenu optionsMenu;
+SoundFile file;
 
 //to avoid buttons being pressed at the same time
 long startTime;
@@ -22,7 +24,7 @@ Menu menus;
 
 public void setup(){
   size(1600,1000);
-  
+  file = new SoundFile(this, "funny.mp3");
   //startTime is for knowing the start time of the programm
   startTime = System.currentTimeMillis();
   //time before a menu loads

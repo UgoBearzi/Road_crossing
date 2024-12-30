@@ -1,8 +1,9 @@
 final class Textbox extends Button{
-   private boolean isWriting, isKeyBeingPressed;
+   private boolean isWriting, isKeyBeingPressed,isOnlyNumbers;
    private String text;
+   private int maxCharacters;
    
-   public Textbox(int x, int y, String label){
+   public Textbox(int x, int y, String label, int maxCharacters,boolean isOnlyNumbers){
     this.width = 200;
     this.height = 25;
     this.x = x - width / 2;
@@ -12,6 +13,22 @@ final class Textbox extends Button{
     this.isWriting = false;
     this.isKeyBeingPressed = false;
     this.text = "";
+    this.maxCharacters= maxCharacters;
+    this.isOnlyNumbers = isOnlyNumbers;
+  }
+  
+  public Textbox(int x, int y, String label, int maxCharacters,boolean isOnlyNumbers,String text){
+    this.width = 100;
+    this.height = 25;
+    this.x = x - width / 2;
+    this.y = y;
+    this.label = label;
+    this.textColor = color(50);
+    this.isWriting = false;
+    this.isKeyBeingPressed = false;
+    this.text = text;
+    this.maxCharacters= maxCharacters;
+    this.isOnlyNumbers = isOnlyNumbers;
   }
   
   public boolean getIsWriting(){
@@ -36,6 +53,22 @@ final class Textbox extends Button{
   
   public String getText(){
     return text;
+  }
+  
+  public void setMaxCharacters(int maxCharacters){
+    this.maxCharacters = maxCharacters;
+  }
+  
+  public int getMaxCharacters(){
+     return maxCharacters;
+  }
+  
+  public void setIsOnlyNumbers(boolean isOnlyNumbers){
+    this.isOnlyNumbers = isOnlyNumbers;
+  }
+  
+  public boolean getIsOnlyNumbers(){
+     return isOnlyNumbers;
   }
   
   public void show(){
@@ -82,7 +115,7 @@ final class Textbox extends Button{
   }
   
   private void addCharacter(){
-    if(getIsKeyBeingPressed() && text.length()<=15){
+    if(getIsKeyBeingPressed() && text.length()<=maxCharacters-1){
       this.text += key;
       setIsKeyBeingPressed(false);
     }
@@ -98,10 +131,18 @@ final class Textbox extends Button{
   public void changeText(){
     
     if(keyPressed && getIsWriting()){
-      if((key >= '0' && key <= '9') || (key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')){
-        addCharacter();
-      } else if(key == BACKSPACE && text.length() > 0){
-        deleteCharacter();
+      if(getIsOnlyNumbers()){
+        if((key >= '0' && key <= '9')){
+          addCharacter();
+        } else if(key == BACKSPACE && text.length() > 0){
+          deleteCharacter();
+        }
+      }else{
+        if((key >= '0' && key <= '9') || (key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')){
+          addCharacter();
+        } else if(key == BACKSPACE && text.length() > 0){
+          deleteCharacter();
+        }
       }
     }else{
       setIsKeyBeingPressed(true);

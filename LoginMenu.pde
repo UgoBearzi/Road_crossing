@@ -8,8 +8,8 @@ final class LoginMenu{
   
   public LoginMenu(){
     this.title = loadImage("Road Crossing.png");
-    this.usernameTextbox = new Textbox(width/2, height/2-50, "Username");
-    this.passwordTextbox = new Textbox(width/2, height/2, "Password");
+    this.usernameTextbox = new Textbox(width/2, height/2-50, "Username",15,false);
+    this.passwordTextbox = new Textbox(width/2, height/2, "Password",15,false);
     this.confirmButton = new Button(width/2, height/2+75, "Login", 16);
     this.warning = "";
     this.isLoginCorrect = false;
