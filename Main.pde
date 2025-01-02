@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.*;
 import processing.sound.*;
 
+//enums
 enum Menu{
   LOGINMENU,
   MAINMENU,
@@ -11,20 +12,36 @@ enum Menu{
   LEVELSELECTMENU
 }
 
+enum SoundSelection{
+  MOUSECLICK
+}
+Menu menus;
+
+
+//menus
 LoginMenu loginMenu;
 MainMenu mainMenu;
 OptionsMenu optionsMenu;
-SoundFile file;
+
 
 //to avoid buttons being pressed at the same time
 long startTime;
 long timeBeforeMenuCanBeSeen;
 
-Menu menus;
+
+//sounds
+SoundFile clickSound;
+SoundFile music;
+
+public void setupSounds(){
+  clickSound = new SoundFile(this, "click.mp3");
+  music = new SoundFile(this, "funny.mp3");
+  music.loop();
+}
 
 public void setup(){
   size(1600,1000);
-  file = new SoundFile(this, "funny.mp3");
+  
   //startTime is for knowing the start time of the programm
   startTime = System.currentTimeMillis();
   //time before a menu loads
@@ -35,6 +52,8 @@ public void setup(){
   optionsMenu = new OptionsMenu();
   
   menus = Menu.LOGINMENU;
+  
+  setupSounds();
 }
 
 //puts the start time at the current time (used to know when a button was last pressed)
@@ -45,6 +64,16 @@ public void resetStartTime(){
 //checks if the last time a button has been pressed is greater or equal to the delay between menus
 public boolean checkIfMenuCanBeSeen(){
   return System.currentTimeMillis() - startTime >= timeBeforeMenuCanBeSeen;
+}
+
+public void playSound(SoundSelection selection){
+  switch(selection){
+    case MOUSECLICK:
+      clickSound.play();
+      break;
+    default:
+      break;
+  }
 }
 
 public void readUserInfo(){
@@ -73,6 +102,7 @@ public void readUserInfo(){
 
 public void loginMenuManager(){
   if(loginMenu.getConfirmButton().getIsPressed()){
+    playSound(SoundSelection.MOUSECLICK);
     readUserInfo();
   }
   loginMenu.show();
@@ -81,10 +111,12 @@ public void loginMenuManager(){
 public void mainMenuManager(){
   mainMenu.show();
   if(mainMenu.isStartButtonPressed()){
+    playSound(SoundSelection.MOUSECLICK);
     menus = Menu.LEVELSELECTMENU;
     resetStartTime();
   }
   if(mainMenu.isOptionsButtonPressed()){
+    playSound(SoundSelection.MOUSECLICK);
     menus = Menu.OPTIONSMENU;
     resetStartTime();
   }
@@ -93,9 +125,15 @@ public void mainMenuManager(){
 public void optionsMenuManager(){
   optionsMenu.show();
   if(optionsMenu.isGoBackButtonPressed()){
+    playSound(SoundSelection.MOUSECLICK);
     menus = Menu.MAINMENU;
     resetStartTime();
   }
+}
+
+public void audioManager(){
+  clickSound.amp(optionsMenu.getSfxVolume() / 100f);
+  music.amp(optionsMenu.getMusicVolume() / 100f);
 }
 
 public void draw(){
@@ -118,4 +156,7 @@ public void draw(){
   }else{
     cursor(WAIT);
   }
+  
+  audioManager();
+  
 }

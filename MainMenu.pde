@@ -5,7 +5,7 @@ class MainMenu{
   
   public MainMenu(){
     this.title = loadImage("Road Crossing.png");
-    this.startButton = new Button(width/2, height/2, "Start", 16);
+    this.startButton = new Button(width/2, height/2-25, "Start", 16);
     this.optionsButton = new Button(width/2, height/2+50, "Options", 16);
   }
   

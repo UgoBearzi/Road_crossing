@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 class Button{
   protected int x, y, width, height;
   protected PFont font;
