@@ -1,5 +1,3 @@
-import processing.sound.*;
-
 class Button{
   protected int x, y, width, height;
   protected PFont font;
@@ -28,6 +26,21 @@ class Button{
     this.width = 200;
     this.height = 50;
     this.x = x - width / 2;
+    this.y = y;
+    this.font = createFont("Arial", 16, true);
+    this.fontSize = fontSize;
+    this.label = label;
+    this.buttonColor = color(100,100,100);
+    this.pressedColor = color(50,50,50);
+    this.highlightColor = color(150,150,150);
+    this.textColor = color(0);
+    this.currentColor = buttonColor;
+  }
+  
+  public Button(int width, int height, int x, int y, String label, int fontSize){
+    this.width = width;
+    this.height = height;
+    this.x = x;
     this.y = y;
     this.font = createFont("Arial", 16, true);
     this.fontSize = fontSize;

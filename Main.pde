@@ -9,19 +9,23 @@ enum Menu{
   LOGINMENU,
   MAINMENU,
   OPTIONSMENU,
-  LEVELSELECTMENU
-}
-
-enum SoundSelection{
-  MOUSECLICK
+  LEVELSELECTMENU,
+  LEVEL
 }
 Menu menus;
 
+//Sound selection for easier sound access
+enum SoundSelection{
+  MOUSECLICK
+}
+
+Player player;
 
 //menus
 LoginMenu loginMenu;
 MainMenu mainMenu;
 OptionsMenu optionsMenu;
+LevelSelectMenu levelMenu;
 
 
 //to avoid buttons being pressed at the same time
@@ -50,8 +54,11 @@ public void setup(){
   loginMenu = new LoginMenu();
   mainMenu = new MainMenu();
   optionsMenu = new OptionsMenu();
+  levelMenu = new LevelSelectMenu();
   
   menus = Menu.LOGINMENU;
+  
+  player = new Player();
   
   setupSounds();
 }
@@ -131,13 +138,43 @@ public void optionsMenuManager(){
   }
 }
 
+public void levelSelectMenuManager(){
+  levelMenu.show();
+  if(levelMenu.anyLevelSelected()){
+    menus = Menu.LEVEL;
+  }
+}
+
 public void audioManager(){
   clickSound.amp(optionsMenu.getSfxVolume() / 100f);
   music.amp(optionsMenu.getMusicVolume() / 100f);
 }
 
-public void draw(){
-  background(190);
+public void levelManager(){
+  
+  
+  switch(levelMenu.levelSelected()){
+      case 1:
+        player.show();
+        break;
+      case 2:
+        text("2", width/2, height/2+200);
+        break;
+      case 3:
+        text("3", width/2, height/2+200);
+        break;
+      case 4:
+        text("4", width/2, height/2+200);
+        break;
+      case 5:
+        text("5", width/2, height/2+200);
+        break;
+       default:
+         break;
+    }
+}
+
+public void menuManager(){
   if(checkIfMenuCanBeSeen()){
     cursor(ARROW);
     switch(menus){
@@ -151,12 +188,23 @@ public void draw(){
         optionsMenuManager();
         break;
       case LEVELSELECTMENU:
+        levelSelectMenuManager();
+        break;
+      case LEVEL:
+        levelManager();
         break;
     }
   }else{
     cursor(WAIT);
   }
-  
+}
+
+
+
+public void draw(){
+  background(190);
+  menuManager();
+  levelManager();
   audioManager();
   
 }
