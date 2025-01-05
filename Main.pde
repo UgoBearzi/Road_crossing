@@ -20,6 +20,7 @@ enum SoundSelection{
 }
 
 Player player;
+Obstacle obstacle;
 
 //menus
 LoginMenu loginMenu;
@@ -29,8 +30,7 @@ LevelSelectMenu levelMenu;
 
 
 //to avoid buttons being pressed at the same time
-long startTime;
-long timeBeforeMenuCanBeSeen;
+long startTime,timeBeforeMenuCanBeSeen;
 
 
 //sounds
@@ -59,6 +59,7 @@ public void setup(){
   menus = Menu.LOGINMENU;
   
   player = new Player();
+  obstacle = new Obstacle();
   
   setupSounds();
 }
@@ -142,6 +143,7 @@ public void levelSelectMenuManager(){
   levelMenu.show();
   if(levelMenu.anyLevelSelected()){
     menus = Menu.LEVEL;
+    resetStartTime();
   }
 }
 
@@ -156,6 +158,8 @@ public void levelManager(){
   switch(levelMenu.levelSelected()){
       case 1:
         player.show();
+        obstacle.show();
+        player.moveIfObstacle(obstacle);
         break;
       case 2:
         text("2", width/2, height/2+200);

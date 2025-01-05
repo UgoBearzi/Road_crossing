@@ -1,5 +1,8 @@
+import java.io.*;
+
 class Player{
-  int positionX, positionY, playerWidth, playerHeight, speed;
+  int positionY,positionX,playerHeight,playerWidth,move;
+  boolean canMove;
   color playerColor;
   
   public Player(){
@@ -7,12 +10,13 @@ class Player{
     this.playerHeight = 50;
     this.positionX = width/2-playerWidth;
     this.positionY = height-playerHeight;
-    this.speed = 5;
-    this.playerColor = color(255,255,0);
+    this.move = 50;
+    this.playerColor = color(255, 204, 0);
+    this.canMove = true;
   }
   
   public void playerAppearance(){
-    fill(255, 204, 0);
+    fill(playerColor);
     rect(positionX, positionY, playerWidth, playerHeight);
 
     fill(0);
@@ -25,28 +29,84 @@ class Player{
     arc(positionX + playerWidth/2, (positionY + 10) + playerHeight/2, 20, 10, 0, PI);
   }
   
+  public boolean getCanMove(){
+    return canMove;
+  }
+  
+  public void setCanMove(boolean canMove){
+    this.canMove = canMove;
+  }
+  
   public void move(){
+    
      if(keyPressed){
        switch(keyCode){
          case UP:
-           positionY -= speed;
+           if(positionY != 0 && getCanMove()){
+             positionY -= move;
+             setCanMove(false);
+           }
            break;
          case DOWN:
-           positionY += speed;
+           if(positionY != height-playerHeight && getCanMove()){
+             positionY += move;
+             setCanMove(false);
+           }
            break;
          case LEFT:
-           positionX -= speed;
+           if(positionX != 0 && getCanMove()){
+             positionX -= move;
+             setCanMove(false);
+           }
            break;
          case RIGHT:
-           positionX += speed;
+           if(positionX != width-playerWidth && getCanMove()){
+             positionX += move;
+             setCanMove(false);
+           }
            break;
        }
+     }else{
+       setCanMove(true);  
      }
    }
-  
+   
+  public void moveIfObstacle(Obstacle obstacle){
+    
+     if(keyPressed){
+       switch(keyCode){
+         case UP:
+           if((positionY != 0 && getCanMove()) && (positionY != obstacle.obstacleHeight-playerHeight)){
+             positionY -= move;
+             setCanMove(false);
+           }
+           break;
+         case DOWN:
+           if((positionY != height-playerHeight && getCanMove()) && (positionY != obstacle.obstacleHeight-playerHeight)){
+             positionY += move;
+             setCanMove(false);
+           }
+           break;
+         case LEFT:
+           if((positionX != 0 && getCanMove()) && (positionX != obstacle.obstacleWidth-playerWidth)){
+             positionX -= move;
+             setCanMove(false);
+           }
+           break;
+         case RIGHT:
+           if((positionX != width-playerWidth && getCanMove()) && (positionX != obstacle.obstacleWidth-playerWidth)){
+             positionX += move;
+             setCanMove(false);
+           }
+           break;
+       }
+     }else{
+       setCanMove(true);  
+     }
+   }  
+   
   public void show(){
     playerAppearance();
-    move();
   }
    
    
