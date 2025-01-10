@@ -20,8 +20,8 @@ enum SoundSelection{
 }
 
 Player player;
-Obstacle obstacle;
-
+Obstacle obstacle1, obstacle2;
+Car car;
 //menus
 LoginMenu loginMenu;
 MainMenu mainMenu;
@@ -59,8 +59,9 @@ public void setup(){
   menus = Menu.LOGINMENU;
   
   player = new Player();
-  obstacle = new Obstacle();
-  
+  obstacle1 = new Obstacle(400, 500);
+  obstacle2 = new Obstacle(800, 500);
+  car = new Car();
   setupSounds();
 }
 
@@ -158,8 +159,12 @@ public void levelManager(){
   switch(levelMenu.levelSelected()){
       case 1:
         player.show();
-        obstacle.show();
-        player.moveIfObstacle(obstacle);
+        obstacle2.show();
+        obstacle2.stopPlayer(player);
+        obstacle1.show();
+        obstacle1.stopPlayer(player);
+        car.show();
+        car.runOverPlayer(player);
         break;
       case 2:
         text("2", width/2, height/2+200);
