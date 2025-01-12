@@ -24,11 +24,15 @@ final class LevelSelectMenu{
     return levelButtons[button];
   }
   
-  public int levelSelected(){
-    for(int i = 0; i < 5; i++){
-      if(getSingleLevelButton(i).getIsPressed()){
-        return i+1;
+  public int levelSelected(int level){
+    if(level==0){
+      for(int i = 0; i < 5; i++){
+        if(getSingleLevelButton(i).getIsPressed()){
+          return i+1;
+        }
       }
+    }else{
+      return level;
     }
     return 0;
   }

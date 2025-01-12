@@ -20,8 +20,12 @@ enum SoundSelection{
 }
 
 Player player;
-Obstacle obstacle1, obstacle2;
-Car car;
+Bush bush1, bush2;
+Car car1;
+Car car2;
+Road road1;
+Road road2;
+Goal goal;
 //menus
 LoginMenu loginMenu;
 MainMenu mainMenu;
@@ -31,6 +35,7 @@ LevelSelectMenu levelMenu;
 
 //to avoid buttons being pressed at the same time
 long startTime,timeBeforeMenuCanBeSeen;
+int currentLevel;
 
 
 //sounds
@@ -59,10 +64,15 @@ public void setup(){
   menus = Menu.LOGINMENU;
   
   player = new Player();
-  obstacle1 = new Obstacle(400, 500);
-  obstacle2 = new Obstacle(800, 500);
-  car = new Car();
+  bush1 = new Bush(400, 500);
+  bush2 = new Bush(800, 500);
+  car1 = new Car(300,true);
+  car2 = new Car(600,false);
+  road1 = new Road(300);
+  road2 = new Road(600);
+  goal = new Goal();
   setupSounds();
+  currentLevel = 0;
 }
 
 //puts the start time at the current time (used to know when a button was last pressed)
@@ -156,15 +166,22 @@ public void audioManager(){
 public void levelManager(){
   
   
-  switch(levelMenu.levelSelected()){
+  switch(levelMenu.levelSelected(currentLevel)){
       case 1:
+        bush1.show();
+        bush2.show();
+        road1.show();
+        road2.show();
+        car1.show();
+        car1.runOverPlayer(player);
+        car2.show();
+        car2.runOverPlayer(player);
+        goal.show();
         player.show();
-        obstacle2.show();
-        obstacle2.stopPlayer(player);
-        obstacle1.show();
-        obstacle1.stopPlayer(player);
-        car.show();
-        car.runOverPlayer(player);
+        goal.reachGoal(player);
+        if(goal.getHasReachedGoal()){
+            currentLevel = 2;
+        }
         break;
       case 2:
         text("2", width/2, height/2+200);
