@@ -186,7 +186,12 @@ class Player{
      }
    }
    
-  
+  public void setCanMoveAll(){
+    setCanMoveUp(true);
+    setCanMoveDown(true);
+    setCanMoveLeft(true);
+    setCanMoveRight(true);
+  }
    
   public void show(){
     playerAppearance();

@@ -1,5 +1,6 @@
 class Obstacle {
   int positionY,positionX,obstacleHeight,obstacleWidth;
+  final int range;
   color carColor;
 
   public Obstacle(){
@@ -8,6 +9,7 @@ class Obstacle {
     this.positionX = width/2-obstacleWidth;
     this.positionY = height-(obstacleHeight*3);
     this.carColor = color(255, 104, 0);
+    this.range = 50;
   }
   
   public Obstacle(int x, int y){
@@ -16,6 +18,7 @@ class Obstacle {
     this.positionX = x;
     this.positionY = height-y;
     this.carColor = color(255, 104, 0);
+    this.range = 50;
   }
   
   public void obstacleAppearance(){
@@ -32,25 +35,30 @@ class Obstacle {
   
   public void stopPlayer(Player player){
     //check if in range of the obstacle
-    if((player.positionX >= positionX && player.positionX <= positionX + obstacleWidth || 
-    positionX >= player.positionX && positionX <= player.positionX + player.playerWidth) && 
-    (player.positionY > positionY && player.positionY < positionY + obstacleHeight || 
-    positionY >= player.positionY && positionY <= player.positionY + player.playerHeight)){
+    if(player.positionX >= positionX - range && player.positionX <= positionX + obstacleWidth + range && 
+    player.positionY >= positionY - range - obstacleHeight && player.positionY <= positionY + obstacleHeight + range){
       
       //check collision under the obstacle
       if (player.getPositionY() + player.getPlayerHeight() >= positionY && player.getPositionY() + player.getPlayerHeight() <= positionY + obstacleHeight &&
       player.getPositionX() >= positionX && player.getPositionX() <= positionX) {
         player.setCanMoveUp(false);         
       } else {
-        player.setCanMoveUp(true);
+        player.setCanMoveAll();
       }
       
       //check collision over the obstacle
-      if (player.getPositionY() <= positionY && player.getPositionY() + player.getPlayerHeight() > positionY - (obstacleHeight*2) &&
+      if (player.getPositionY() <= positionY - obstacleHeight && player.getPositionY() + player.getPlayerHeight() >= positionY - obstacleHeight*2 && 
       player.getPositionX() >= positionX && player.getPositionX() <= positionX) {
         player.setCanMoveDown(false);         
       } else {
-        player.setCanMoveDown(true);
+        player.setCanMoveAll();
+      }
+      
+      if (player.getPositionX() <= positionX + obstacleWidth && player.getPositionX() + player.getPlayerWidth() >= positionX && 
+      player.getPositionY() <= positionY && player.getPositionY() + player.getPlayerHeight() >= positionY) {
+        player.setCanMoveLeft(false);         
+      } else {
+        player.setCanMoveAll();
       }
     }
     
