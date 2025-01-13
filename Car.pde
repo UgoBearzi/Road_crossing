@@ -1,5 +1,5 @@
 class Car{
-  int startingPositionXSx,startingPositionXDx,startingPositionY, positionX, positionY;
+  int startingPositionX,startingPositionY, positionX, positionY, endingPositionX;
   int carHeight,carWidth;
   int speed;
   color carColor;
@@ -9,31 +9,34 @@ class Car{
     this.carWidth = 100;
     this.carHeight = 50;
     this.startingPositionY = 800-carHeight;
-    this.startingPositionXSx = -carWidth;
-    this.startingPositionXDx = width+carWidth;
-    this.positionX = startingPositionXSx;
+    this.startingPositionX = -carWidth;
+    this.positionX = startingPositionX;
     this.positionY = startingPositionY;
+    this.endingPositionX = width+carWidth;
     this.speed = 5;
     this.carColor = color(255, 104, 0);
     this.doesStartRight = false;
   }
   
-  public Car(int y,boolean doesStartRight){
-    this.carWidth = 100;
+  public Car(int carWidth, int y,int speed, boolean doesStartRight, color carColor,int startingPositionMultiplier, int lastPositionMultiplier){
+    this.carWidth = carWidth;
     this.carHeight = 50;
     this.startingPositionY = y-carHeight;
-    this.startingPositionXSx = -carWidth;
-    this.startingPositionXDx = width+carWidth;
     this.positionY = startingPositionY;
     this.doesStartRight= doesStartRight;
-    this.carColor = color(255, 104, 0);
+    this.carColor = carColor;
+    
     if(doesStartRight){
-      this.positionX = startingPositionXDx;
-      this.speed = -5;
+      this.startingPositionX = width+(carWidth*startingPositionMultiplier);
+      this.speed = -speed;
+      this.endingPositionX = -(carWidth*lastPositionMultiplier);
     }else{
-      this.positionX = startingPositionXSx;
-      this.speed = 5;
+      this.startingPositionX = -(carWidth*startingPositionMultiplier);
+      this.speed = speed;
+      this.endingPositionX = width+(carWidth*lastPositionMultiplier);
     }
+    
+    this.positionX = startingPositionX;
   }
   
   public void carAppearance(){
@@ -44,9 +47,9 @@ class Car{
     fill(135, 206, 250);
     
     if(doesStartRight){
-      rect(positionX+15, positionY+5, 20, 40, 30);
+      rect(positionX+(carWidth/5), positionY+5, 20, 40, 30);
     }else{
-      rect(positionX+55, positionY+5, 20, 40, 30);
+      rect(positionX+(carWidth/1.50f), positionY+5, 20, 40, 30);
     }
     strokeWeight(4);
   }
