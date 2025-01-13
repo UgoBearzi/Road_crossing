@@ -40,6 +40,7 @@ class Goal{
      stroke(4);
   }
   
+  //when player reaches goal, set hasReachedGoal to true
   public void reachGoal(Player player){
     if(player.positionY > positionY && player.positionY < positionY + goalHeight || 
     positionY >= player.positionY && positionY < player.positionY + player.playerHeight){

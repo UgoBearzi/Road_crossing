@@ -54,6 +54,7 @@ class Car{
     strokeWeight(4);
   }
   
+  //if it starts right it moves in a direction, else in another
   public void carMove(){
     positionX += speed;
     if(!doesStartRight){
@@ -72,6 +73,8 @@ class Car{
     carMove();
   }
   
+  
+  //if the player touches the car it is sent to the starting position
   public void runOverPlayer(Player player){
     if((player.positionX >= positionX && player.positionX <= positionX + carWidth || 
     positionX >= player.positionX && positionX <= player.positionX + player.playerWidth) && 

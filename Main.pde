@@ -84,6 +84,7 @@ public boolean checkIfMenuCanBeSeen(){
   return System.currentTimeMillis() - startTime >= timeBeforeMenuCanBeSeen;
 }
 
+//sound selector
 public void playSound(SoundSelection selection){
   switch(selection){
     case MOUSECLICK:
@@ -96,6 +97,7 @@ public void playSound(SoundSelection selection){
   }
 }
 
+//file reader
 public void readUserInfo(){
   new File("Users").mkdirs();
   String folderPath = dataPath("Users");

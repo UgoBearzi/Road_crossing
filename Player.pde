@@ -74,8 +74,8 @@ class Player{
     this.canMove = canMove;
   }
   
+  //simple movement
   public void move(){
-    
      if(keyPressed){
        switch(keyCode){
          case UP:
@@ -113,6 +113,7 @@ class Player{
     move();
   }
   
+  //resets the player position, used for death
   public void resetPosition(){
     setPositionX(startingPositionX);
     setPositionY(startingPositionY);

@@ -85,7 +85,6 @@ class Button{
     if(!mousePressed){
       setIsPressed(false);
     }
-
     if(mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height){
       setIsOver(true);
       if(mousePressed){
