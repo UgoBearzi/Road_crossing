@@ -35,9 +35,6 @@ public class LevelOne{
   }
   
   public void show(){
-    for(int i = 0; i<4;i++){
-      bush[i].show();
-    }
     
     for(int i = 0; i<5;i++){
       road[i].show();
@@ -48,6 +45,10 @@ public class LevelOne{
     goal.show();
     player.show();
     goal.reachGoal(player);
+    
+    for(int i = 0; i<4;i++){
+      bush[i].show();
+    }
   }
 
 }

@@ -16,7 +16,8 @@ Menu menus;
 
 //Sound selection for easier sound access
 enum SoundSelection{
-  MOUSECLICK
+  MOUSECLICK,
+  VICTORY
 }
 
 //menus
@@ -28,6 +29,8 @@ LevelSelectMenu levelMenu;
 //levels
 LevelOne levelOne;
 LevelTwo levelTwo;
+LevelThree levelThree;
+LevelFour levelFour;
 
 
 //to avoid buttons being pressed at the same time
@@ -37,11 +40,13 @@ int currentLevel;
 
 //sounds
 SoundFile clickSound;
+SoundFile victory;
 SoundFile music;
 
 public void setupSounds(){
   clickSound = new SoundFile(this, "click.mp3");
-  music = new SoundFile(this, "funny.mp3");
+  victory = new SoundFile(this, "victory.mp3");
+  music = new SoundFile(this, "music.mp3");
   music.loop();
 }
 
@@ -60,6 +65,8 @@ public void setup(){
   
   levelOne = new LevelOne();
   levelTwo = new LevelTwo();
+  levelThree = new LevelThree();
+  levelFour = new LevelFour();
   
   menus = Menu.LOGINMENU;
   
@@ -82,6 +89,8 @@ public void playSound(SoundSelection selection){
     case MOUSECLICK:
       clickSound.play();
       break;
+    case VICTORY:
+      victory.play();
     default:
       break;
   }
@@ -145,6 +154,7 @@ public void optionsMenuManager(){
 public void levelSelectMenuManager(){
   levelMenu.show();
   if(levelMenu.anyLevelSelected()){
+    playSound(SoundSelection.MOUSECLICK);
     menus = Menu.LEVEL;
     resetStartTime();
   }
@@ -152,6 +162,7 @@ public void levelSelectMenuManager(){
 
 public void audioManager(){
   clickSound.amp(optionsMenu.getSfxVolume() / 100f);
+  victory.amp(optionsMenu.getSfxVolume() / 100f);
   music.amp(optionsMenu.getMusicVolume() / 100f);
 }
 
@@ -162,23 +173,38 @@ public void levelManager(){
       case 1:
         levelOne.show();
         if(levelOne.getGoal().getHasReachedGoal()){
-            currentLevel = 2;
+          playSound(SoundSelection.VICTORY);  
+          currentLevel = 2;
         }
         break;
       case 2:
         levelTwo.show();
         if(levelTwo.getGoal().getHasReachedGoal()){
-            currentLevel = 3;
+          playSound(SoundSelection.VICTORY); 
+          currentLevel = 3;
         }
         break;
       case 3:
-        text("3", width/2, height/2+200);
+        levelThree.show();
+        if(levelThree.getGoal().getHasReachedGoal()){
+          playSound(SoundSelection.VICTORY); 
+          currentLevel = 4;
+        }
         break;
       case 4:
-        text("4", width/2, height/2+200);
+        levelFour.show();
+        if(levelFour.getGoal().getHasReachedGoal()){
+          playSound(SoundSelection.VICTORY); 
+          currentLevel = 5;
+        }
         break;
       case 5:
-        text("5", width/2, height/2+200);
+        textAlign(CENTER);
+        textSize(90);
+        fill(0);
+        text("YOU WON!", width/2, height/2-150);
+        text("CONGRATULATIONS!", width/2, height/2);
+        textAlign(LEFT);
         break;
        default:
          break;

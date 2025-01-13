@@ -12,11 +12,14 @@ public class LevelTwo{
     this.player = new Player();
     
     this.car1 = new Car(100, 850, 7, true, color(70), 1, 1);
+    
     this.car2 = new Car(250, 650, 5, false, color(0), 1, 1);
+    
     this.car3 = new Car[3];
     this.car3[0] = new Car(100, 400, 7, true, color(70, 36, 191), 1, 6);
     this.car3[1] = new Car(100, 400, 7, true, color(70, 36, 191), 6, 1);
     this.car3[2] = new Car(100, 450, 9, false, color(36, 145, 191), 1, 1);
+    
     this.car4 = new Car[4];
     this.car4[0] = new Car(100, 250, 5, true, color(163, 44, 38), 1, 10);
     this.car4[1] = new Car(100, 250, 5, true, color(163, 44, 38), 4, 7);
